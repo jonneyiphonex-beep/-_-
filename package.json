@@ -1,0 +1,21 @@
+{
+  "name": "-_-",
+  "version": "1.0.0",
+  "description": "قارئ ويب خفيف يعرض المقالات باتجاه من اليمين إلى اليسار، مع خيار ترجمة النص إلى العربية.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonneyiphonex-beep/-_-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jonneyiphonex-beep/-_-/issues"
+  },
+  "homepage": "https://github.com/jonneyiphonex-beep/-_-#readme"
+}

@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10241f">
+  <title>ض | قارئ الويب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #15241f;
+      --muted: #66746e;
+      --paper: #f4f6f1;
+      --white: #fff;
+      --line: #dce3dc;
+      --green: #173c30;
+      --lime: #d8f36a;
+      --coral: #e9755d;
+      --font: "IBM Plex Sans Arabic", "Tahoma", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: radial-gradient(#dce4dc 0.7px, transparent 0.7px);
+      background-size: 16px 16px;
+      font-family: var(--font);
+      min-height: 100vh;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .browser-chrome {
+      color: #f6f8f2;
+      background: var(--ink);
+      border-bottom: 4px solid var(--lime);
+    }
+    .topline {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 4.5vw;
+      border-bottom: 1px solid #ffffff20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 172px;
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .brand-mark {
+      width: 31px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: var(--lime);
+      border-radius: 50% 50% 50% 8px;
+      font-weight: 700;
+    }
+    .browser-label { color: #b8c4bc; font-size: 12px; font-weight: 400; }
+    .address-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 860px;
+      margin-inline: auto;
+      padding: 5px;
+      border: 1px solid #718078;
+      border-radius: 5px;
+      background: #fff;
+    }
+    .address-form input {
+      min-width: 0;
+      flex: 1;
+      height: 38px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: transparent;
+      border: 0;
+      outline: 0;
+      direction: ltr;
+      text-align: left;
+      font-family: var(--font);
+      font-size: 14px;
+    }
+    .address-form input::placeholder { color: #87938c; }
+    .go-button {
+      min-height: 38px;
+      padding: 0 17px;
+      color: var(--ink);
+      background: var(--lime);
+      border: 0;
+      border-radius: 3px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .go-button:hover { background: #e4ff80; }
+    .top-status { min-width: 172px; text-align: left; color: #b8c4bc; font-size: 12px; }
+    .top-status span { color: var(--lime); }
+
+    .workspace { width: min(1320px, 91vw); margin: 0 auto; }
+    .welcome {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      padding: 42px 0 28px;
+    }
+    .eyebrow {
+      margin: 0 0 9px;
+      color: #547462;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    h1 { margin: 0; font-size: clamp(27px, 4vw, 39px); line-height: 1.35; }
+    .welcome-copy { max-width: 490px; margin: 0 0 4px; color: var(--muted); line-height: 1.9; font-size: 14px; }
+
+    .reader-layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+      padding-bottom: 48px;
+    }
+    .side-panel { padding-top: 8px; }
+    .side-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .side-caption { color: var(--muted); font-size: 11px; font-weight: 400; }
+    .bookmark-list { display: grid; gap: 6px; }
+    .bookmark {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: 100%;
+      min-height: 53px;
+      padding: 8px 10px;
+      text-align: right;
+      color: var(--ink);
+      background: #ffffffbb;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    .bookmark:hover { border-color: #91a798; background: var(--white); }
+    .bookmark-symbol {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      background: #e7eee5;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .bookmark strong { display: block; font-size: 12px; }
+    .bookmark small { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; direction: ltr; text-align: right; }
+    .privacy-note {
+      margin-top: 20px;
+      padding: 13px 14px;
+      border-right: 3px solid var(--coral);
+      color: #58655e;
+      background: #fff9f4;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .privacy-note strong { display: block; margin-bottom: 3px; color: var(--ink); font-size: 12px; }
+
+    .reader {
+      min-height: 510px;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      box-shadow: 0 10px 32px #1936290a;
+    }
+    .reader-toolbar {
+      min-height: 57px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 20px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcf9;
+    }
+    .view-tabs { display: flex; gap: 4px; }
+    .tab {
+      min-height: 35px;
+      padding: 0 14px;
+      color: #65736b;
+      background: transparent;
+      border: 0;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tab[aria-selected="true"] { color: var(--ink); background: #e6eee4; }
+    .reader-actions { display: flex; align-items: center; gap: 12px; }
+    .rtl-control { display: inline-flex; align-items: center; gap: 7px; color: #536159; font-size: 11px; white-space: nowrap; cursor: pointer; }
+    .rtl-control input { width: 16px; height: 16px; margin: 0; accent-color: var(--green); }
+    .translate-button {
+      min-height: 35px;
+      padding: 0 13px;
+      color: white;
+      background: var(--green);
+      border: 0;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .translate-button:hover:not(:disabled) { background: #23533f; }
+    .translate-button:disabled { opacity: .45; cursor: not-allowed; }
+    .article-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 25px 7.5% 0; }
+    .article-host { color: #6e7a73; direction: ltr; text-align: left; font: 11px var(--font); overflow-wrap: anywhere; }
+    .article-state { color: #718077; font-size: 11px; }
+    .article-content {
+      max-width: 780px;
+      min-height: 395px;
+      margin: 0 auto;
+      padding: 30px 7.5% 62px;
+      font-size: 17px;
+      line-height: 2.05;
+    }
+    .article-content h2, .article-content h3 { line-height: 1.55; }
+    .article-content h2 { margin: 0 0 22px; font-size: 28px; }
+    .article-content h3 { margin: 29px 0 12px; font-size: 21px; }
+    .article-content p { margin: 0 0 18px; }
+    .article-content img { display: block; max-width: 100%; max-height: 70vh; height: auto; margin: 24px auto; border-radius: 4px; object-fit: contain; }
+    .article-content blockquote { margin: 20px 0; padding: 3px 18px 3px 0; border-right: 3px solid var(--coral); color: #526158; }
+    .article-content ul { padding-right: 23px; }
+    .empty-state { display: grid; min-height: 340px; place-content: center; text-align: center; color: var(--muted); }
+    .empty-mark { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 16px; color: var(--ink); background: var(--lime); border-radius: 50% 50% 50% 10px; font-size: 25px; }
+    .empty-state strong { display: block; margin-bottom: 6px; color: var(--ink); font-size: 17px; }
+    .empty-state p { max-width: 340px; margin: 0; font-size: 12px; line-height: 1.8; }
+    .notice { display: none; margin: 18px 7.5% 0; padding: 10px 13px; color: #67402c; background: #fff0e8; border: 1px solid #f4d1bf; border-radius: 3px; font-size: 12px; line-height: 1.7; }
+    .notice.visible { display: block; }
+    .loading-line { height: 3px; background: #e6ebe5; }
+    .loading-line span { display: block; width: 0; height: 100%; background: var(--coral); transition: width .2s ease; }
+    .loading-line.active span { width: 100%; animation: progress 1.5s ease-in-out infinite; }
+    @keyframes progress { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+    @media (max-width: 850px) {
+      .topline { flex-wrap: wrap; gap: 10px; padding: 12px 4vw; }
+      .brand { min-width: 0; flex: 1; }
+      .top-status { min-width: auto; }
+      .address-form { order: 3; flex-basis: 100%; }
+      .welcome { align-items: start; flex-direction: column; gap: 9px; padding-top: 28px; }
+      .reader-layout { grid-template-columns: 1fr; gap: 19px; }
+      .side-panel { order: 2; }
+      .bookmark-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .bookmark { align-items: start; }
+      .privacy-note { margin-top: 12px; }
+    }
+    @media (max-width: 560px) {
+      .workspace { width: min(100% - 28px, 1320px); }
+      .browser-label { display: none; }
+      .top-status { font-size: 10px; }
+      .go-button { padding-inline: 12px; }
+      .bookmark-list { grid-template-columns: 1fr; }
+      .bookmark { align-items: center; }
+      .reader-toolbar { align-items: start; flex-direction: column; gap: 8px; padding: 11px 12px; }
+      .reader-actions { justify-content: space-between; width: 100%; }
+      .article-meta { padding-inline: 6%; }
+      .article-content { padding: 25px 6% 48px; font-size: 16px; }
+      .article-content h2 { font-size: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="browser-chrome">
+    <div class="topline">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">ض</span><span>ض <span class="browser-label">قارئ الويب</span></span></div>
+      <form class="address-form" id="address-form">
+        <input id="address" type="url" inputmode="url" placeholder="أدخل رابط صفحة لقراءتها بالعربية" aria-label="رابط الصفحة" autocomplete="url">
+        <button class="go-button" type="submit">افتح الصفحة</button>
+      </form>
+      <div class="top-status"><span>●</span> وضع القراءة العربية</div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="welcome" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">متصفح خفيف للقراءة</p>
+        <h1 id="page-title">الويب، بلغتك.</h1>
+      </div>
+      <p class="welcome-copy">ضع رابط أي مقال لعرضه في صفحة هادئة باتجاه من اليمين إلى اليسار، ثم حوّل محتواه إلى العربية.</p>
+    </section>
+
+    <div class="reader-layout">
+      <aside class="side-panel" aria-label="روابط سريعة ومعلومات">
+        <h2 class="side-title">ابدأ من هنا <span class="side-caption">روابط تجريبية</span></h2>
+        <div class="bookmark-list">
+          <button class="bookmark" type="button" data-url="https://en.wikipedia.org/wiki/Internet">
+            <span class="bookmark-symbol">وي</span><span><strong>ويكيبيديا</strong><small>en.wikipedia.org</small></span>
+          </button>
+          <button class="bookmark" type="button" data-url="https://www.bbc.com/news">
+            <span class="bookmark-symbol">بي</span><span><strong>BBC News</strong><small>bbc.com/news</small></span>
+          </button>
+          <button class="bookmark" type="button" data-url="https://developer.mozilla.org/en-US/docs/Web">
+            <span class="bookmark-symbol">MDN</span><span><strong>MDN Web Docs</strong><small>developer.mozilla.org</small></span>
+          </button>
+        </div>
+        <div class="privacy-note"><strong>ملاحظة حول الخصوصية</strong>تُجلب الصفحة عبر Jina Reader وتُرسل فقراتها إلى MyMemory عند طلب الترجمة. لا تستخدم صفحات تتضمن معلومات خاصة.</div>
+      </aside>
+
+      <section class="reader" aria-label="قارئ الصفحة">
+        <div class="loading-line" id="loading-line" aria-hidden="true"><span></span></div>
+        <div class="reader-toolbar">
+          <div class="view-tabs" role="tablist" aria-label="لغة المقال">
+            <button class="tab" id="original-tab" type="button" role="tab" aria-selected="true">الأصل</button>
+            <button class="tab" id="arabic-tab" type="button" role="tab" aria-selected="false" disabled>العربية</button>
+          </div>
+          <div class="reader-actions">
+            <label class="rtl-control"><input id="rtl-toggle" type="checkbox" checked> قراءة من اليمين</label>
+            <button class="translate-button" id="translate-button" type="button" disabled>ترجم إلى العربية</button>
+          </div>
+        </div>
+        <div class="notice" id="notice" role="status" aria-live="polite"></div>
+        <div class="article-meta"><span class="article-state" id="article-state">بانتظار صفحة</span><span class="article-host" id="article-host"></span></div>
+        <article class="article-content" id="article-content" dir="rtl">
+          <div class="empty-state"><div class="empty-mark" aria-hidden="true">ض</div><div><strong>مساحة للقراءة، بلا زحام</strong><p>أدخل رابط مقال أو اختر أحد المواقع أعلاه. ستظهر الصفحة هنا بتنسيق مبسّط.</p></div></div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const addressForm = document.querySelector('#address-form');
+    const addressInput = document.querySelector('#address');
+    const content = document.querySelector('#article-content');
+    const state = document.querySelector('#article-state');
+    const hostLabel = document.querySelector('#article-host');
+    const notice = document.querySelector('#notice');
+    const loadingLine = document.querySelector('#loading-line');
+    const translateButton = document.querySelector('#translate-button');
+    const originalTab = document.querySelector('#original-tab');
+    const arabicTab = document.querySelector('#arabic-tab');
+    const rtlToggle = document.querySelector('#rtl-toggle');
+    let pageBlocks = [];
+    let translatedBlocks = null;
+    let currentUrl = null;
+
+    function setBusy(busy, label) {
+      loadingLine.classList.toggle('active', busy);
+      addressForm.querySelector('button').disabled = busy;
+      translateButton.disabled = busy || !pageBlocks.length;
+      if (label) state.textContent = label;
+    }
+
+    function showNotice(message) {
+      notice.textContent = message;
+      notice.classList.add('visible');
+    }
+
+    function clearNotice() {
+      notice.textContent = '';
+      notice.classList.remove('visible');
+    }
+
+    function normalizeUrl(value) {
+      const raw = value.trim();
+      const url = new URL(/^[a-zA-Z][a-zA-Z\d+.-]*:\/\//.test(raw) ? raw : `https://${raw}`);
+      if (!['http:', 'https:'].includes(url.protocol)) throw new Error('أدخل رابطًا يبدأ بـ http أو https.');
+      return url;
+    }
+
+    function cleanMarkdownText(text) {
+      return text
+        .replace(/\[\[([^\]]+)\]\]\([^)]*\)/g, '')
+        .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/(\*\*|__|~~|`|\*|_)/g, '')
+        .trim();
+    }
+
+    function blocksFromMarkdown(markdown) {
+      const marker = 'Markdown Content:';
+      const markerIndex = markdown.indexOf(marker);
+      const metadata = markerIndex === -1 ? '' : markdown.slice(0, markerIndex);
+      const pageTitle = metadata.match(/^Title:\s*(.+)$/m)?.[1]?.trim();
+      if (markerIndex !== -1) markdown = markdown.slice(markerIndex + marker.length);
+      const blocks = [];
+      let paragraph = [];
+      const flush = () => {
+        const text = paragraph.join(' ').trim();
+        if (text) blocks.push({ type: 'p', text });
+        paragraph = [];
+      };
+      for (const rawLine of markdown.split(/\r?\n/)) {
+        const line = rawLine.trim();
+        if (!line) { flush(); continue; }
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        const listItem = line.match(/^[-*+]\s+(.+)$/);
+        const quote = line.match(/^>\s?(.+)$/);
+        if (heading) { flush(); blocks.push({ type: heading[1].length === 1 ? 'h2' : 'h3', text: heading[2] }); }
+        else if (listItem) { flush(); blocks.push({ type: 'li', text: listItem[1] }); }
+        else if (quote) { flush(); blocks.push({ type: 'quote', text: quote[1] }); }
+        else if (/^[-*_]{3,}$/.test(line)) flush();
+        else {
+          const imagePattern = /!\[([^\]]*)\]\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g;
+          const images = [...line.matchAll(imagePattern)];
+          if (!images.length) {
+            paragraph.push(line);
+            continue;
+          }
+          flush();
+          let cursor = 0;
+          for (const image of images) {
+            const before = line.slice(cursor, image.index).trim();
+            if (before) blocks.push({ type: 'p', text: before });
+            blocks.push({ type: 'image', text: image[1] || 'صورة', src: image[2] });
+            cursor = image.index + image[0].length;
+          }
+          const after = line.slice(cursor).trim();
+          if (after) blocks.push({ type: 'p', text: after });
+        }
+      }
+      flush();
+      const readableBlocks = blocks
+        .filter(block => block.type === 'image' || (block.text && !/^\[[^\]]+\]\(https?:\/\/[^)]+\)$/.test(block.text)))
+        .map(block => block.type === 'image' ? block : ({ ...block, text: cleanMarkdownText(block.text) }))
+        .filter(block => block.type === 'image' || block.text);
+      if (pageTitle && !readableBlocks.some(block => block.type === 'h2')) {
+        readableBlocks.unshift({ type: 'h2', text: pageTitle });
+      }
+      return readableBlocks;
+    }
+
+    function renderBlocks(blocks) {
+      content.replaceChildren();
+      let list = null;
+      for (const block of blocks) {
+        if (block.type === 'image') {
+          list = null;
+          let imageUrl;
+          try { imageUrl = new URL(block.src, currentUrl); }
+          catch { continue; }
+          if (!['http:', 'https:'].includes(imageUrl.protocol)) continue;
+          const image = document.createElement('img');
+          image.src = imageUrl.href;
+          image.alt = block.text;
+          image.loading = 'lazy';
+          image.decoding = 'async';
+          content.append(image);
+          continue;
+        }
+        if (block.type === 'li') {
+          if (!list) { list = document.createElement('ul'); content.append(list); }
+          const item = document.createElement('li');
+          item.textContent = block.text;
+          list.append(item);
+          continue;
+        }
+        list = null;
+        const element = document.createElement(block.type === 'h2' ? 'h2' : block.type === 'h3' ? 'h3' : block.type === 'quote' ? 'blockquote' : 'p');
+        element.textContent = block.text;
+        content.append(element);
+      }
+      content.dir = rtlToggle.checked ? 'rtl' : 'ltr';
+      content.lang = arabicTab.getAttribute('aria-selected') === 'true' ? 'ar' : 'auto';
+    }
+
+    async function openPage(value) {
+      clearNotice();
+      let pageUrl;
+      try { pageUrl = normalizeUrl(value); }
+      catch (error) { showNotice(error.message || 'الرابط غير صالح.'); return; }
+      currentUrl = pageUrl;
+      addressInput.value = pageUrl.href;
+      hostLabel.textContent = pageUrl.hostname;
+      pageBlocks = [];
+      translatedBlocks = null;
+      arabicTab.disabled = true;
+      originalTab.setAttribute('aria-selected', 'true');
+      arabicTab.setAttribute('aria-selected', 'false');
+      setBusy(true, 'جارٍ جلب الصفحة…');
+      try {
+        const response = await fetch(`/api/read?url=${encodeURIComponent(pageUrl.href)}`);
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `تعذر جلب الصفحة (HTTP ${response.status}).`);
+        }
+        const markdown = await response.text();
+        pageBlocks = blocksFromMarkdown(markdown);
+        if (!pageBlocks.length) throw new Error('لم أجد نصًا قابلًا للقراءة في هذه الصفحة.');
+        const titleBlock = pageBlocks.find(block => block.type === 'h2' || block.type === 'h3');
+        if (titleBlock && titleBlock.type !== 'h2') pageBlocks.unshift({ type: 'h2', text: titleBlock.text });
+        renderBlocks(pageBlocks);
+        arabicTab.disabled = false;
+        translateButton.disabled = false;
+        setBusy(false, `${pageBlocks.length} مقطعًا للقراءة`);
+      } catch (error) {
+        const serverHint = 'إذا ظهرت هذه الرسالة، فغالبًا لم يتم تشغيل الخادم المحلي. شغّل: python3 server.py ثم أعد فتح الصفحة.';
+        const errorText = String(error?.message || error || '');
+        const isFetchFailure = /fetch|network|failed to connect|load failed/i.test(errorText) || ['TypeError', 'NetworkError', 'AbortError'].includes(error?.name);
+        const fallbackError = isFetchFailure ? new Error(serverHint) : error;
+        setBusy(false, 'تعذر فتح الصفحة');
+        content.replaceChildren();
+        showNotice(`${fallbackError.message || 'حدث خطأ أثناء جلب الصفحة.'} قد تمنع بعض المواقع قراءتها عبر الخدمة الوسيطة.`);
+      }
+    }
+
+    function splitText(text, maxLength = 440) {
+      const parts = [];
+      let rest = text;
+      while (rest.length > maxLength) {
+        let cut = rest.lastIndexOf(' ', maxLength);
+        if (cut < maxLength * 0.55) cut = maxLength;
+        parts.push(rest.slice(0, cut));
+        rest = rest.slice(cut).trimStart();
+      }
+      if (rest) parts.push(rest);
+      return parts;
+    }
+
+    function decodeTranslation(value) {
+      const parsed = new DOMParser().parseFromString(value, 'text/html');
+      return parsed.body.textContent || value;
+    }
+
+    async function translateText(text) {
+      const parts = splitText(text);
+      const results = [];
+      for (const part of parts) {
+        const params = new URLSearchParams({ q: part, source: 'auto', target: 'ar' });
+        const response = await fetch(`/api/translate?${params}`);
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || `خدمة الترجمة غير متاحة (HTTP ${response.status}).`);
+        }
+        const data = await response.json();
+        if (!data.text) {
+          throw new Error('لم تُرجع خدمة الترجمة نصًا.');
+        }
+        results.push(decodeTranslation(data.text));
+      }
+      return results.join(' ');
+    }
+
+    async function translatePage() {
+      if (!pageBlocks.length || translatedBlocks) return;
+      clearNotice();
+      setBusy(true, 'جارٍ ترجمة الصفحة…');
+      translateButton.textContent = 'تُترجم الصفحة…';
+      let completed = 0;
+      try {
+        const result = [];
+        for (const block of pageBlocks) {
+          result.push({ type: block.type, text: await translateText(block.text) });
+          completed += block.text.length;
+          state.textContent = `جارٍ الترجمة · ${Math.min(100, Math.round(completed / pageBlocks.reduce((sum, item) => sum + item.text.length, 0) * 100))}٪`;
+        }
+        translatedBlocks = result;
+        arabicTab.disabled = false;
+        selectView('ar');
+        state.textContent = 'الترجمة إلى العربية جاهزة';
+      } catch (error) {
+        showNotice(`${error.message || 'تعذرت الترجمة.'} قد تفرض الخدمة حدًا يوميًا أو حدًا لطول النص.`);
+        state.textContent = 'تعذرت الترجمة';
+      } finally {
+        setBusy(false);
+        translateButton.textContent = translatedBlocks ? 'أُنجزت الترجمة' : 'ترجم إلى العربية';
+      }
+    }
+
+    function selectView(language) {
+      const isArabic = language === 'ar' && translatedBlocks;
+      originalTab.setAttribute('aria-selected', String(!isArabic));
+      arabicTab.setAttribute('aria-selected', String(Boolean(isArabic)));
+      renderBlocks(isArabic ? translatedBlocks : pageBlocks);
+      if (isArabic) state.textContent = 'الترجمة إلى العربية';
+      else if (pageBlocks.length) state.textContent = `${pageBlocks.length} مقطعًا للقراءة`;
+    }
+
+    addressForm.addEventListener('submit', event => {
+      event.preventDefault();
+      if (addressInput.value.trim()) openPage(addressInput.value);
+    });
+    document.querySelectorAll('.bookmark').forEach(button => button.addEventListener('click', () => openPage(button.dataset.url)));
+    translateButton.addEventListener('click', translatePage);
+    originalTab.addEventListener('click', () => selectView('original'));
+    arabicTab.addEventListener('click', () => { if (translatedBlocks) selectView('ar'); });
+    rtlToggle.addEventListener('change', () => { content.dir = rtlToggle.checked ? 'rtl' : 'ltr'; });
+  </script>
+</body>
+</html>
